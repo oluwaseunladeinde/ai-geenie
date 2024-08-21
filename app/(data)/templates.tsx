@@ -3,17 +3,17 @@
 export interface TEMPLATE {
     name: string;
     desc: string;
-    icon: string;
     category: string;
-    slug: string,
+    icon: string;
     aiPrompt: string;
+    slug: string,
     form?: FORM[];
 }
 
 export interface FORM {
+    name: string;
     label: string;
     field: string;
-    name: string;
     required?: boolean;
 }
 
@@ -192,6 +192,38 @@ export const TEMPLATELIST = [
                 field: "textarea",
                 required: false,
             }
+        ]
+    },
+    {
+        name: "Instagram Post Generator",
+        desc: "An AI tool that serves as your personal blog post title writer, generating catchy and viral-worthy titles in your chosen language",
+        category: "Social Media",
+        icon: "https://cdn-icons-png.flaticon.com/128/174/174855.png",
+        aiPrompt: "Give 5 blog topic ideas in bullet points only in given niche & outline topic and give me result in Richtext editor format",
+        slug: "instagram-post-generator",
+        form: [
+            {
+                name: "keyword",
+                label: "Enter your keywords for your post",
+                field: "input",
+                required: true,
+            },
+        ]
+    },
+    {
+        name: "Add Emojis to Text",
+        desc: "An AI tool that serves as your personal blog post title writer, generating catchy and viral-worthy titles in your chosen language",
+        category: "Social Media",
+        icon: "https://cdn-icons-png.flaticon.com/128/4160/4160724.png",
+        aiPrompt: "Give 5 blog topic ideas in bullet points only in given niche & outline topic and give me result in Richtext editor format",
+        slug: "add-emojis-to-text",
+        form: [
+            {
+                name: "keyword",
+                label: "Enter your text to add emojis",
+                field: "textarea",
+                required: true,
+            },
         ]
     }
 ]

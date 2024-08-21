@@ -6,7 +6,7 @@ type Props = {}
 
 const DashboardLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <div>
+        <div className='bg-slate-100 h-screen'>
             <div className='hidden md:w-64 md:block fixed'>
                 <SideNav />
             </div>

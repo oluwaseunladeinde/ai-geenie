@@ -41,7 +41,7 @@ export const SideNav = (props: Props) => {
     }, [])
 
     return (
-        <div className='h-screen p-5 shadow-sm border'>
+        <div className='h-screen p-5 shadow-sm border bg-white'>
             <div className='flex pb-4 items-center border-b-1'>
                 <Image src="/logo.svg" alt="App logo" height={30} width={30} />
                 <p className='font-bold ml-1.5 text-2xl text-primary'>AI GEENIE</p>
