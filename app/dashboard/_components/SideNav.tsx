@@ -49,7 +49,7 @@ export const SideNav = (props: Props) => {
 
             <div className='mt-8'>
                 {menuList.map((menu) => (
-                    <div className={cn(
+                    <div key={menu.name} className={cn(
                         'flex gap-2 mb-2 p-3 hover:bg-primary/30 hover:text-primary rounded-lg cursor-pointer',
                         path === menu.path && "bg-primary hover:bg-primary hove text-white hover:text-white"
                     )}>
