@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from 'react';
+
 import { ArrowLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -8,7 +10,7 @@ import { FormSection } from '../_components/FormSection';
 import { DisplayOutputSection } from '../_components/DisplayOutputSection';
 import { TEMPLATE, TEMPLATELIST } from '@/app/(data)/templates';
 import Link from 'next/link';
-
+import { AIModel } from '@/utils/AIModel';
 
 interface TemplateProps {
     params: {
@@ -18,10 +20,27 @@ interface TemplateProps {
 
 const CreateContentPage = (props: TemplateProps) => {
 
-    const slug = props.params.slug;
-    const selectedTemplate: TEMPLATE | undefined = TEMPLATELIST?.find((template) => template.slug === slug);
+    const [isLoading, setIsLoading] = useState(false);
+    const [aiOutput, setAIOutput] = useState<string>('');
 
-    const generateAIContent = (formData: any) => {
+    const selectedTemplate: TEMPLATE | undefined = TEMPLATELIST?.find((template) => template.slug === props.params.slug);
+
+    const generateAIContent = async (formData: any) => {
+        setIsLoading(true);
+        try {
+            const aiPrompt = `${JSON.stringify(formData)},${selectedTemplate?.aiPrompt!}`;
+
+            const result = await AIModel.generateContent(aiPrompt);
+            const response = result.response;
+            const text = response.text();
+            console.log(text);
+            setAIOutput(text);
+            setIsLoading(false);
+        } catch (error) {
+            console.log("the error is ", error);
+            setIsLoading(false);
+            setAIOutput('');
+        }
 
     }
 
@@ -35,9 +54,10 @@ const CreateContentPage = (props: TemplateProps) => {
                 <FormSection
                     selectedTemplate={selectedTemplate}
                     userFormInput={(v: any) => generateAIContent(v)}
+                    loading={isLoading}
                 />
                 <div className='col-span-2'>
-                    <DisplayOutputSection />
+                    <DisplayOutputSection aiOutput={aiOutput} />
                 </div>
             </div>
         </div>

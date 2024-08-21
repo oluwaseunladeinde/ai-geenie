@@ -4,6 +4,7 @@ import { TEMPLATE } from '@/app/(data)/templates';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react'
 
@@ -11,9 +12,10 @@ import React, { useState } from 'react'
 type TemplateProps = {
     selectedTemplate?: TEMPLATE;
     userFormInput: any;
+    loading?: boolean;
 }
 
-export const FormSection = ({ selectedTemplate, userFormInput }: TemplateProps) => {
+export const FormSection = ({ selectedTemplate, userFormInput, loading }: TemplateProps) => {
 
     const [formData, setFormData] = useState<any>();
 
@@ -46,7 +48,14 @@ export const FormSection = ({ selectedTemplate, userFormInput }: TemplateProps) 
                         </div>
                     </div>
                 ))}
-                <Button type='submit' className='w-full py-6'>Generate Content</Button>
+                <Button
+                    type='submit'
+                    className='w-full py-6'
+                    disabled={loading}
+                >
+                    {loading && <Loader2 className='size-4 mr-2 animate-spin' />}
+                    Generate Content
+                </Button>
             </form>
         </div>
     )

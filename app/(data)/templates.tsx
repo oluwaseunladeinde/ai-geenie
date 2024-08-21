@@ -68,7 +68,7 @@ export const TEMPLATELIST = [
         category: "Blog",
         icon: "https://cdn-icons-png.flaticon.com/128/7454/7454738.png",
         aiPrompt: "Give 5 blog topic ideas in bullet points only in given niche & outline topic and give me result in Richtext editor format",
-        slug: "generate-blog-title2",
+        slug: "blog-topic-ideas",
         form: [
             {
                 name: "niche",
@@ -76,12 +76,6 @@ export const TEMPLATELIST = [
                 field: "input",
                 required: true,
             },
-            {
-                name: "outline",
-                label: "Enter your blog outline",
-                field: "textarea",
-                required: false,
-            }
         ]
     },
     {
@@ -222,6 +216,22 @@ export const TEMPLATELIST = [
                 name: "keyword",
                 label: "Enter your text to add emojis",
                 field: "textarea",
+                required: true,
+            },
+        ]
+    },
+    {
+        name: "Instagram Hashtag Generator",
+        desc: "An AI tool that serves as your personal blog post title writer, generating catchy and viral-worthy titles in your chosen language",
+        category: "Social Media",
+        icon: "https://cdn-icons-png.flaticon.com/128/7045/7045432.png",
+        aiPrompt: "Generate instagram hashtags based on the keywords provided.",
+        slug: "instagram-hashtag-generator",
+        form: [
+            {
+                name: "keyword",
+                label: "Enter keywords for your instagram hashtag",
+                field: "input",
                 required: true,
             },
         ]
