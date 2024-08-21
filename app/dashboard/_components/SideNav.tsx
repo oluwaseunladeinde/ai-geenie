@@ -1,11 +1,16 @@
+"use client";
+
+import { usePathname } from 'next/navigation';
+
 import Image from 'next/image';
 import { FileClock, Home, Settings, WalletCards } from 'lucide-react';
-import React from 'react'
+import { useEffect } from 'react';
+import { cn } from '@/lib/utils';
+
 
 type Props = {}
 
 export const SideNav = (props: Props) => {
-
     const menuList = [
         {
             name: "Home",
@@ -28,19 +33,28 @@ export const SideNav = (props: Props) => {
             path: "/dashboard/setting"
         },
 
-    ]
+    ];
+
+    const path = usePathname();
+    useEffect(() => {
+        console.log({ path });
+    }, [])
 
     return (
         <div className='h-screen p-5 shadow-sm border'>
-            <div className='flex justify-center'>
-                <Image src="/logo.svg" alt="App logo" height={28} width={28} />
+            <div className='flex pb-4 items-center border-b-1'>
+                <Image src="/logo.svg" alt="App logo" height={30} width={30} />
+                <p className='font-bold ml-1.5 text-2xl text-primary'>AI GEENIE</p>
             </div>
 
-            <div className='mt-10'>
+            <div className='mt-8'>
                 {menuList.map((menu) => (
-                    <div className='flex gap-2 mb-2 p-3 hover:bg-primary hover:text-white rounded-lg cursor-pointer'>
-                        <menu.icon />
-                        <h2>{menu.name}</h2>
+                    <div className={cn(
+                        'flex gap-2 mb-2 p-3 hover:bg-primary/30 hover:text-primary rounded-lg cursor-pointer',
+                        path === menu.path && "bg-primary hover:bg-primary hove text-white hover:text-white"
+                    )}>
+                        <menu.icon className='size-7' />
+                        <h2 className='text-lg'>{menu.name}</h2>
                     </div>
                 ))}
             </div>
