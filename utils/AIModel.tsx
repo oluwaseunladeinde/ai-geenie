@@ -1,11 +1,7 @@
-import { config } from "dotenv";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-config({ path: ".env.local", });
-
 // Access your API key as an environment variable (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-
+const genAI = new GoogleGenerativeAI(process.env.AIGEENIE_GEMINI_API_KEY!);
 console.log({ api_key: process.env.GEMINI_API_KEY });
 
 export const AIModel = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
