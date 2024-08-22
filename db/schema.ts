@@ -1,4 +1,5 @@
-import { date, pgTable, text, varchar } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { integer, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
 
 export const aiOutput = pgTable("aiOutput", {
@@ -6,7 +7,7 @@ export const aiOutput = pgTable("aiOutput", {
     formData: varchar("form_data").notNull(),
     aiResponse: text("ai_response"),
     templateSlug: varchar("slug").notNull(),
-
     createdBy: varchar("created_by").notNull(),
-    createdAt: date("createdAt").notNull(),
+    createdAt: varchar("createdAt").notNull(),
 });
+
