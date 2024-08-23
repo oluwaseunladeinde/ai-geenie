@@ -7,9 +7,16 @@ import { aiOutput } from "@/db/schema";
 import { } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { createId } from "@paralleldrive/cuid2";
+import { auth } from "@clerk/nextjs/server";
 
 
 export async function POST(req: Request) {
+
+    const { userId } = auth();
+    if (!userId) {
+        return new NextResponse('unauthorized', { status: 401 });
+    }
+
     try {
         const { email, aioutput, formData, templateSlug } = await req.json();
         const aiOutput_ids = await db.insert(aiOutput).values({

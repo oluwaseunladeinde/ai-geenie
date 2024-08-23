@@ -11,3 +11,5 @@ export const aiOutput = pgTable("aiOutput", {
     createdAt: varchar("createdAt").notNull(),
 });
 
+export type AIOutput = typeof aiOutput.$inferSelect;
+export type NewAIOutput = typeof aiOutput.$inferInsert; 
