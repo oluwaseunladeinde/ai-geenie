@@ -1,23 +1,22 @@
 "use client";
 
 import { useState } from 'react';
-import moment from 'moment';
+import axios from "axios";
 
 import { ArrowLeft } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-
-import { aiOutput as AIOutput } from '@/db/schema';
-
-import { createId } from "@paralleldrive/cuid2";
 
 import { FormSection } from '../_components/FormSection';
 import { DisplayOutputSection } from '../_components/DisplayOutputSection';
 import { TEMPLATE, TEMPLATELIST } from '@/app/(data)/templates';
 import Link from 'next/link';
 import { AIModel } from '@/utils/AIModel';
-import { db } from '@/db/drizzle';
+
 import { useUser } from '@clerk/nextjs';
+
+import { saveOutputToDB } from '@/actions/save-aioutput';
+import { useMutation } from '@tanstack/react-query';
 
 interface TemplateProps {
     params: {
@@ -29,21 +28,26 @@ const CreateContentPage = (props: TemplateProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [aiOutput, setAIOutput] = useState<string>('');
+    const [userFormData, setUserFormData] = useState(undefined);
+
     const { user } = useUser();
 
     const selectedTemplate: TEMPLATE | undefined = TEMPLATELIST?.find((template) => template.slug === props.params.slug);
 
     const generateAIContent = async (formData: any) => {
         setIsLoading(true);
+        setUserFormData(formData);
+
         try {
             const aiPrompt = `${JSON.stringify(formData)},${selectedTemplate?.aiPrompt!}`;
 
             const result = await AIModel.generateContent(aiPrompt);
             const response = result.response;
             const text = response.text();
-            console.log(text);
-            setAIOutput(text);
-            await saveInDb(formData, selectedTemplate?.slug!, text)
+            if (text) {
+                setAIOutput(text);
+                saveToDatabase.mutate(text);
+            }
             setIsLoading(false);
         } catch (error) {
             console.log("the error is ", error);
@@ -52,18 +56,20 @@ const CreateContentPage = (props: TemplateProps) => {
         }
     };
 
-    const saveInDb = async (formData: any, templateSlug: string, output: string) => {
-        const result = await db.insert(AIOutput).values({
-            id: createId(),
-            formData: formData,
-            templateSlug: templateSlug,
-            aiResponse: output,
-            createdBy: user?.primaryEmailAddress?.emailAddress!,
-            createdAt: moment().format('DD/MM/YYYY'),
-        });
+    const saveToDatabase = useMutation({
+        mutationFn: async (output: string) => {
+            const response = await axios.post('/api/saveAIOutput', {
+                email: user?.primaryEmailAddress?.emailAddress,
+                aioutput: output,
+                formData: userFormData,
+                templateSlug: selectedTemplate?.slug,
+            });
 
-        console.log({ result });
-    };
+            console.log({ data: response.data });
+            return response.data;
+        }
+    })
+
 
     return (
         <div className='p-10 gap-y-4'>
