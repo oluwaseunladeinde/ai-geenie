@@ -1,0 +1,89 @@
+.container {
+    min-height: 100vh;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .main {
+    padding: 1rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .title {
+    margin: 0;
+    line-height: 1.15;
+    font-size: 3rem;
+  }
+  
+  .pricingGrid {
+    background-color: #FFF;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .pricingCard {
+    border: 1px solid #ccc;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .pricingTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pricingPrice {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .pricingPriceValue {
+    font-weight: bold;
+  }
+  
+  .pricingPriceUnit {
+    font-size: 0.8rem;
+  }
+  
+  .pricingFeatures {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .pricingFeatures li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .pricingButton {
+    padding: 1rem 2rem;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  .footer a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .footer a img {
+    margin-left: 0.5rem;
+  }

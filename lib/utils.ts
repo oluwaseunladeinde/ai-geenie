@@ -15,3 +15,11 @@ export function countWords(paragraph: string): number {
   // Return the number of words in the array
   return words.length;
 }
+
+export const formatNaira = (value: number): string => {
+  return new Intl.NumberFormat('en-NG', {
+    style: 'currency',
+    currency: 'NGN',
+    minimumFractionDigits: 2, // Ensures two decimal places
+  }).format(value);
+};

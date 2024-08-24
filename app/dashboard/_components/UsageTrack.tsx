@@ -71,7 +71,7 @@ const UsageTrack = ({ data = [] }: Props) => {
                 </div>
                 <h2 className='my-1 text-xs'>{formatNumber(totalUsage)} of {formatNumber(CREDIT_COUNT)} Credits Used</h2>
             </div>
-            <Button variant={"secondary"} className='my-3 w-full text-primary hover:border-primary'>Upgrade</Button>
+            <Button variant={"secondary"} className='my-3 w-full text-primary hover:bg-primary hover:text-white'>Upgrade</Button>
         </div>
     )
 }
