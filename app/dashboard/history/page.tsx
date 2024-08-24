@@ -61,7 +61,7 @@ const HistoryPage = (props: Props) => {
             words: countWords(row.output),
             output: <RowSnippet output={row.output} />,
             template: <RowTemplate slug={row.slug} />,
-            copy: <Button variant={"outline"}>Copy</Button>,
+            copy: <Button onClick={() => navigator.clipboard.writeText(row.output)} variant={"outline"}>Copy</Button>,
         }));
     }
 
