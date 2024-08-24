@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import axios from "axios";
 
 import { ArrowLeft } from 'lucide-react';
@@ -9,14 +9,17 @@ import { Button } from '@/components/ui/button';
 
 import { FormSection } from '../_components/FormSection';
 import { DisplayOutputSection } from '../_components/DisplayOutputSection';
-import { TEMPLATE, TEMPLATELIST } from '@/app/(data)/templates';
+import { TEMPLATELIST } from '@/app/(data)/templates';
 import Link from 'next/link';
 import { AIModel } from '@/utils/AIModel';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 import { useUser } from '@clerk/nextjs';
 
-import { saveOutputToDB } from '@/actions/save-aioutput';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
+import { CREDIT_COUNT } from '@/utils/constants';
+import { useRouter } from 'next/navigation';
 
 interface TemplateProps {
     params: {
@@ -26,15 +29,25 @@ interface TemplateProps {
 
 const CreateContentPage = (props: TemplateProps) => {
 
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const [aiOutput, setAIOutput] = useState<string>('');
     const [userFormData, setUserFormData] = useState(undefined);
 
-    const { user } = useUser();
+    const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
 
-    const selectedTemplate: TEMPLATE | undefined = TEMPLATELIST?.find((template) => template.slug === props.params.slug);
+    const { user } = useUser();
+    const queryClient = useQueryClient();
+
+    const selectedTemplate: any | undefined = TEMPLATELIST?.find((template) => template.slug === props.params.slug);
 
     const generateAIContent = async (formData: any) => {
+
+        if (totalUsage >= CREDIT_COUNT) {
+            router.push('/dashboard/billing');
+            return;
+        }
+
         setIsLoading(true);
         setUserFormData(formData);
 
@@ -57,6 +70,7 @@ const CreateContentPage = (props: TemplateProps) => {
     };
 
     const saveToDatabase = useMutation({
+
         mutationFn: async (output: string) => {
             const response = await axios.post('/api/saveAIOutput', {
                 email: user?.primaryEmailAddress?.emailAddress,
@@ -64,9 +78,13 @@ const CreateContentPage = (props: TemplateProps) => {
                 formData: userFormData,
                 templateSlug: selectedTemplate?.slug,
             });
-
-            console.log({ data: response.data });
             return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["aioutput"] });
+        },
+        onError: (response) => {
+            console.error("Failed to update transaction");
         }
     })
 

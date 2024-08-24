@@ -3,48 +3,48 @@
 import { usePathname, useRouter } from 'next/navigation';
 
 import Image from 'next/image';
-import { FileClock, Home, Settings, WalletCards } from 'lucide-react';
+import { FileClock, Home, Loader2, Settings, WalletCards } from 'lucide-react';
 import { useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import UsageTrack from './UsageTrack';
+import { useGetAiOutputs } from '@/features/api/use-get-aioutputs';
 
 
 type Props = {}
 
-export const SideNav = (props: Props) => {
-    const menuList = [
-        {
-            name: "Home",
-            icon: Home,
-            path: "/dashboard"
-        },
-        {
-            name: "History",
-            icon: FileClock,
-            path: "/dashboard/history"
-        },
-        {
-            name: "Billing",
-            icon: WalletCards,
-            path: "/dashboard/billing"
-        },
-        {
-            name: "Settings",
-            icon: Settings,
-            path: "/dashboard/setting"
-        },
+const menuList = [
+    {
+        name: "Home",
+        icon: Home,
+        path: "/dashboard"
+    },
+    {
+        name: "History",
+        icon: FileClock,
+        path: "/dashboard/history"
+    },
+    {
+        name: "Billing",
+        icon: WalletCards,
+        path: "/dashboard/billing"
+    },
+    {
+        name: "Settings",
+        icon: Settings,
+        path: "/dashboard/setting"
+    },
 
-    ];
+];
+
+
+export const SideNav = (props: Props) => {
 
     const path = usePathname();
-    useEffect(() => {
-        console.log({ path });
-    }, []);
-
-
+    const { data, isLoading } = useGetAiOutputs();
 
     return (
-        <div className='h-screen p-5 shadow-sm border bg-white'>
+        <div className='h-screen p-5 relative shadow-sm border bg-white'>
             <div className='flex pb-4 items-center border-b-1'>
                 <Image src="/logo.svg" alt="App logo" height={30} width={30} />
                 <h2 className='font-bold ml-1.5 text-2xl text-primary'>AI GEENIE</h2>
@@ -62,7 +62,18 @@ export const SideNav = (props: Props) => {
                     </Link>
                 ))}
             </div>
-        </div>
+            <div className='absolute bottom-10 left-0 w-full'>
+                {isLoading
+                    ?
+                    <div className='m-5'>
+                        <div className='border items-center justify-center flex text-primary rounded-lg p-3'>
+                            <Loader2 className='size-4 animate-spin mr-2' />
+                            <p>Loading...</p>
+                        </div>
+                    </div>
+                    : <UsageTrack data={data} />}
 
-    )
+            </div>
+        </div>
+    );
 };

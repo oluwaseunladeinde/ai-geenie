@@ -127,21 +127,15 @@ export const TEMPLATELIST = [
         desc: "An AI tool that generates blog titles based on your blog information",
         category: "Blog",
         icon: "https://cdn-icons-png.flaticon.com/128/4379/4379655.png",
-        aiPrompt: "Give 5 blog topic ideas in bullet points only in given niche & outline topic and give me result in Richtext editor format",
-        slug: "generate-blog-title5",
+        aiPrompt: "Give a minimuj of Youtube tags from the title provided",
+        slug: "youtube-tags",
         form: [
             {
-                name: "niche",
+                name: "keywoords",
                 label: "Enter your blog niche",
                 field: "input",
                 required: true,
             },
-            {
-                name: "outline",
-                label: "Enter your blog outline",
-                field: "textarea",
-                required: false,
-            }
         ]
     },
     {
@@ -149,18 +143,12 @@ export const TEMPLATELIST = [
         desc: "An AI tool that generates blog titles based on your blog information",
         category: "Blog",
         icon: "https://cdn-icons-png.flaticon.com/128/3079/3079976.png",
-        aiPrompt: "Give 5 blog topic ideas in bullet points only in given niche & outline topic and give me result in Richtext editor format",
-        slug: "generate-blog-title6",
+        aiPrompt: "Rewrite the provided text. Avoid any form of plagiarism",
+        slug: "rewrite-article-lagiarism-free",
         form: [
             {
-                name: "niche",
-                label: "Enter your blog niche",
-                field: "input",
-                required: true,
-            },
-            {
-                name: "outline",
-                label: "Enter your blog outline",
+                name: "content",
+                label: "Enter your paragraph",
                 field: "textarea",
                 required: false,
             }

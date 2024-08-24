@@ -3,14 +3,10 @@
 import { TEMPLATELIST } from '@/app/(data)/templates';
 import { HeaderTitle } from '@/components/HeaderTitle'
 import { Button } from '@/components/ui/button';
-import { AIOutput } from '@/db/schema';
 import { useGetAiOutputs } from '@/features/api/use-get-aioutputs';
 import { cn, countWords } from '@/lib/utils';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
 
 type Props = {}
 
@@ -67,8 +63,6 @@ const HistoryPage = (props: Props) => {
             template: <RowTemplate slug={row.slug} />,
             copy: <Button variant={"outline"}>Copy</Button>,
         }));
-
-        console.log({ newdata });
     }
 
     return (
